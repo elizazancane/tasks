@@ -1,25 +1,40 @@
 import React from "react"
 import {Text, View, StyleSheet, TouchableWithoutFeedback} from "react-native"
 import moment from "moment"
-import {Icon} from "react-native-vector-icons/FontAwesome6"
+import Icon from "react-native-vector-icons/FontAwesome6"
 
 export default props => {
+    const done_or_not = props.date_at != null ? {textDecorationLine: "line-throug"} : {}
+    const date = props.date_at != null ? props.done_at : props.estimate_at
+    const format_date = moment(date).formar('ddd, D [de] MMM')
     return(
         <View style={StyleSheet.container}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => alert("Concluir Tarefa")}>
         <View style={styles.checkContainer}>
             <View style={styles.done}>
-                <Icon name="check" size={20}></Icon>
+            {get_Check_View(props.done_at)}
             </View>
         </View>
         </TouchableWithoutFeedback>
             <View>
-                <Text style={styles.desc}>{props.description}</Text>
-                <Text style={styles.date}>{props.estimate_at + ""}</Text>
-                <Text style={styles.date}>{props.done_at + ""}</Text>
+                <Text style={[styles.desc, done_or_not]}>{props.description}</Text>
+                <Text style={styles.date}>{format_date}</Text>
             </View>
         </View>
     )
+}
+
+function get_Check_View(done_at){
+    if(done_at != null){
+        <View style={styles.done}>
+            <Icon name="check" size={20} color="#FFF"></Icon>
+        </View>
+    }else{
+        return(
+        <View style={styles.pending}>
+        </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
