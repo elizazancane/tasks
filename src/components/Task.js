@@ -9,7 +9,7 @@ export default props => {
     const format_date = moment(date).formar('ddd, D [de] MMM')
     return(
         <View style={StyleSheet.container}>
-        <TouchableWithoutFeedback onPress={() => alert("Concluir Tarefa")}>
+        <TouchableWithoutFeedback onPress={() => props.toggle_task(props.id)}>
         <View style={styles.checkContainer}>
             <View style={styles.done}>
             {get_Check_View(props.done_at)}

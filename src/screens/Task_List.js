@@ -1,11 +1,47 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, ImageBackground} from "react-native"
+import { StyleSheet, View, Text, ImageBackground, FlatList} from "react-native"
 import moment from "moment"
 import "moment/locale/pt-br"
 
 import today_Image from "../../assets/imgs/today.jpg"
 
 export default class TaskList extends Component{
+
+    state = {
+        tasks: [
+            {
+                description : "Terminar TCC",
+                estimate_at: new Date(),
+                done_at: new Date()
+            },
+            {
+                description : "Fazer TCC",
+                estimate_at: new Date(),
+                done_at: new Date()
+            },
+            {
+                description : "Tarefa 3",
+                estimate_at: new Date(),
+                done_at: null
+            },
+        ]
+    }
+
+    toggle_taks = taks_id => {
+        const tasks = [...this.state.tasks]
+        tasks.forEach(task => {
+            if(taks_id === taks_id){
+                task.done_at = task.done_at ? null : new Date()
+                //if(taks.done_at != null){
+                //   task.done_at = null
+                //}else{
+                //   taks.done_at = new Date()
+                //}
+            }
+        })
+        this.setState({ tasks })
+    }
+
     render(){
         const today = moment().locale(pt-br).format('ddd, D [de] MMMM')
         return(
@@ -17,7 +53,12 @@ export default class TaskList extends Component{
                 </View>
             </ImageBackground>
             <View style={styles.taskList}>
-                    <Task
+                <FlatList
+                    data = {this.state.tasks} 
+                    keyExtractor={item => '${item.id}'}
+                    renderItem={({itme}) => <Task {...item} toggle_taks ={this.toggle_taks} />}
+                />
+                    {/*<Task
                         description="Terminar TCC"
                         estimate_at={moment(new Date()).add(30, "days")}
                         done_at={new Date()}
@@ -26,7 +67,7 @@ export default class TaskList extends Component{
                         description="Apresentar TCC"
                         estimate_at={moment(new Date()).add(63, "days")}
                         done_at={null}
-                    />
+                    />*/}
                 </View>
             </View>
         )
